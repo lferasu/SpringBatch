@@ -27,13 +27,14 @@ Method 1 (downloading the app from docker hub)
 	
 
 Method 2 (building locally)
-	
-	a)rename docker-compose-local.yml to docker-compose.yml (you  have to rename the existin docker-compose.yml file to somethingelse)
-	b)execute docker-compose up on your docker platform
+
+	a) build the application by using "mvn clean package"
+	b)rename docker-compose-local.yml to docker-compose.yml (you  have to rename the existin docker-compose.yml file to somethingelse)
+	c)execute docker-compose up on your docker platform
       this builds the spring application , make a local docker image and starts the application
-	c)go to http://localhost:8080
-	d)log-in with username: user , password: password
-	e)click on the button start bactch job button
+	d)go to http://localhost:8080
+	e)log-in with username: user , password: password
+	f)click on the button start bactch job button
 		this will start the server side application and database will be populated from the student.csv file
 	
 	
