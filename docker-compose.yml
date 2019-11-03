@@ -1,0 +1,44 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: '3.7'
+
+# Define services
+services:
+  # App backend service
+  server:
+    # Configuration for building the docker image for the backend service
+#    build:
+#      context: . # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+#      dockerfile: Dockerfile
+    image : lferasu/project1:v1
+    ports:
+      - 8080:8080 # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on:
+      - db # This service depends on mysql. Start that first.
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mytest?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: mysql
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+
+  db:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    expose:
+      # Opens port 3306 on the container
+      - 3306
+    restart: always
+    environment:
+      MYSQL_DATABASE: batch
+      MYSQL_USER: root
+      MYSQL_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD: mysql
+    networks:
+      - backend
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
